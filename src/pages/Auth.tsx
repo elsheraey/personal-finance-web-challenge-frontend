@@ -10,8 +10,13 @@ export default function Auth() {
   return (
     <Container>
       <Flex gap="md" wrap="wrap" justify="center">
-        <Button onClick={handleClickLogin}>Login</Button>
-        <Button onClick={handleClickRegister}>Register</Button>
+        <Button data-testid="login-button" onClick={handleClickLogin}>
+          Login
+        </Button>
+
+        <Button data-testid="register-button" onClick={handleClickRegister}>
+          Register
+        </Button>
       </Flex>
     </Container>
   );

@@ -64,18 +64,24 @@ export default function Login() {
 
             <TextInput
               {...form.getInputProps("email")}
+              data-testid="login-email-input"
               icon={<IconAt />}
               placeholder="Your email"
             />
 
             <PasswordInput
               {...form.getInputProps("password")}
+              data-testid="login-password-input"
               placeholder="Your password"
             />
 
-            <Button type="submit">Login</Button>
+            <Button data-testid="login-submit-button" type="submit">
+              Login
+            </Button>
 
-            <Button onClick={handleClickBack}>Back</Button>
+            <Button data-testid="login-back-button" onClick={handleClickBack}>
+              Back
+            </Button>
           </Flex>
         </form>
       </Center>
