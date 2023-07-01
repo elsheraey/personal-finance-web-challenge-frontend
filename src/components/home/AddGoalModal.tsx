@@ -86,6 +86,7 @@ export default function AddGoalModal({
             formatter={formatNumberInputValue}
             label="Total amount"
             min={0}
+            max={1_000_000_000}
             onChange={handleChangeGoalTotalAmount}
             parser={parseNumberInputValue}
           />
