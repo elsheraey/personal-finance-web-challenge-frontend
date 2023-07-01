@@ -31,3 +31,22 @@ export const formatDateString = (dateStr: string) => {
 
   return `${month} ${year}`;
 };
+
+// NOTE: This could be more interesting with interest and FV calculations
+// REFACTOR: This is out of place in utils....
+export const calculateMonthlyAmount = (
+  totalAmount: number,
+  currentDate: Date,
+  goalDate: Date
+): number => {
+  const remainingMonths =
+    (goalDate.getFullYear() - currentDate.getFullYear()) * 12 +
+    goalDate.getMonth() -
+    currentDate.getMonth();
+
+  if (remainingMonths <= 0) {
+    return 0; // Goal date is in the past or current month, no monthly amount needed
+  }
+
+  return totalAmount / remainingMonths;
+};

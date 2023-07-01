@@ -4,6 +4,36 @@ import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 import { login } from "./api/auth";
 import App from "./App";
 import { setAccessToken, setIsLoggedIn, setRefreshToken } from "./store/auth";
+import { calculateMonthlyAmount } from "./utils";
+
+// NOTE: Remaining month are calculated by the number of months between the current date and the goal date which is at the beginning of the month.
+describe("calculateMonthlyAmount", () => {
+  test("should calculate the correct monthly amount for the example scenario", () => {
+    const totalAmount = 30000;
+    const currentDate = new Date("2023-10-01");
+    const goalDate = new Date("2025-10-01");
+
+    const result = calculateMonthlyAmount(totalAmount, currentDate, goalDate);
+
+    expect(result).toBe(1250);
+  });
+
+  test("should return 0 when goal date is in the past or current month", () => {
+    const totalAmount = 1000;
+    const currentDate = new Date("2023-07-01");
+    const goalDate = new Date("2023-06-01");
+    const result = calculateMonthlyAmount(totalAmount, currentDate, goalDate);
+    expect(result).toBe(0);
+  });
+
+  test("should handle cases where the goal date is in the same year as the current date", () => {
+    const totalAmount = 5000;
+    const currentDate = new Date("2023-07-01");
+    const goalDate = new Date("2023-12-01");
+    const result = calculateMonthlyAmount(totalAmount, currentDate, goalDate);
+    expect(result).toBe(1000);
+  });
+});
 
 // Mock the API functions
 jest.mock("./api/auth", () => ({
