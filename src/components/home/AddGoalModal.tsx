@@ -59,6 +59,9 @@ export default function AddGoalModal({
   };
 
   const handleFormSubmit = (values: any) => {
+    onClose();
+    form.reset();
+
     createGoal(
       values.name,
       values.totalAmount,
@@ -66,8 +69,6 @@ export default function AddGoalModal({
       values.monthlyAmount
     ).then((response) => {
       setGoals((prev: any) => [...prev, response.data]);
-      onClose();
-      form.reset();
     });
   };
 
