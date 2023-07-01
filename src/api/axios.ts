@@ -21,7 +21,10 @@ axiosClient.interceptors.request.use(function (config) {
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (HTTP_EXCEPTION_UNAUTHORIZED === error.response.status) {
+    if (
+      HTTP_EXCEPTION_UNAUTHORIZED === error.response.status &&
+      error.response.data.message !== "Invalid password"
+    ) {
       store.dispatch(setIsLoggedIn(false));
       store.dispatch(setAccessToken(null));
       store.dispatch(setRefreshToken(null));

@@ -12,7 +12,10 @@ import { IconAt } from "@tabler/icons-react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
-import { HTTP_EXCEPTION_NOT_FOUND } from "../api/axios";
+import {
+  HTTP_EXCEPTION_NOT_FOUND,
+  HTTP_EXCEPTION_UNAUTHORIZED,
+} from "../api/axios";
 import { PATH_HOME } from "../constants/paths";
 import { setAccessToken, setIsLoggedIn, setRefreshToken } from "../store/auth";
 
@@ -45,6 +48,8 @@ export default function Login() {
       .catch((error) => {
         if (HTTP_EXCEPTION_NOT_FOUND === error?.response?.status) {
           form.setFieldError("email", "Email not found");
+        } else if (HTTP_EXCEPTION_UNAUTHORIZED === error?.response?.status) {
+          form.setFieldError("password", "Invalid password");
         }
       });
   };
