@@ -1,9 +1,19 @@
 import { Button, Card, Container, Flex, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import AddGoalModal from "../components/home/AddGoalModal";
+import { logout } from "../store/auth";
 
 export default function Home() {
   const [opened, { open, close }] = useDisclosure(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleClickLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <>
@@ -20,7 +30,7 @@ export default function Home() {
             </Flex>
           </Card>
 
-          <Button>Logout</Button>
+          <Button onClick={handleClickLogout}>Logout</Button>
         </Flex>
       </Container>
     </>
