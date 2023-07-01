@@ -1,6 +1,7 @@
 import { Button, Flex, Modal, NumberInput, TextInput } from "@mantine/core";
 import { MonthPickerInput } from "@mantine/dates";
 import { isInRange, isNotEmpty, useForm } from "@mantine/form";
+import { createGoal } from "../../api/goals";
 import { formatNumberInputValue, parseNumberInputValue } from "../../utils";
 
 // NOTE: This could be more interesting with interest and FV calculations
@@ -24,9 +25,14 @@ const calculateMonthlyAmount = (
 interface AddGoalModalProps {
   opened: boolean;
   onClose: () => void;
+  setGoals: (value: any) => void;
 }
 
-export default function AddGoalModal({ opened, onClose }: AddGoalModalProps) {
+export default function AddGoalModal({
+  opened,
+  onClose,
+  setGoals,
+}: AddGoalModalProps) {
   const currentDate = new Date();
   const nextMonthDate = new Date(
     currentDate.getFullYear(),
@@ -66,10 +72,23 @@ export default function AddGoalModal({ opened, onClose }: AddGoalModalProps) {
     form.setValues({ monthlyAmount });
   };
 
+  const handleFormSubmit = (values: any) => {
+    createGoal(
+      values.name,
+      values.totalAmount,
+      values.goalDate,
+      values.monthlyAmount
+    ).then((response) => {
+      setGoals((prev: any) => [...prev, response.data]);
+      onClose();
+      form.reset();
+    });
+  };
+
   return (
     <Modal onClose={onClose} opened={opened} title="Add Goal">
       <form
-        onSubmit={form.onSubmit((values) => console.log(values))}
+        onSubmit={form.onSubmit(handleFormSubmit)}
         style={{ width: "100%" }}
       >
         <Flex direction="column" gap="md">
